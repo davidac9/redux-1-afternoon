@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import RecipeCard from "./../RecipeCard/RecipeCard";
 import "./Home.css";
-import store from './../../store'
+import store, {REMOVE_RECIPE} from './../../store'
 
 class Home extends Component {
   constructor(props) {
@@ -11,6 +11,21 @@ class Home extends Component {
     this.state = {
       recipes: reduxState.recipes
     };
+  }
+
+  remove(index) {
+    store.dispatch({
+      type: REMOVE_RECIPE,
+      payload: index
+    })
+  }
+  componentDidMount() {
+    store.subscribe(() => {
+      const reduxState = store.getState()
+      this.setState({
+        recipes: reduxState.recipes
+      })
+    })
   }
 
   render() {
@@ -24,6 +39,7 @@ class Home extends Component {
           authorLast={recipe.authorLast}
           ingredients={recipe.ingredients}
           instructions={recipe.instructions}
+          remove={this.remove}
         />
       );
     });

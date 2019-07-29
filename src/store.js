@@ -19,6 +19,8 @@ export const UPDATE_AUTHOR_LAST = 'UPDATE_AUTHOR_LAST'
 export const ADD_INGREDIENT = 'ADD_INGREDIENT'
 export const ADD_INSTRUCTION = 'ADD_INSTRUCTION'
 export const ADD_RECIPE = 'ADD_RECIPE'
+export const CLEAR_INPUTS = 'CLEAR_INPUTS'
+export const REMOVE_RECIPE = 'REMOVE_RECIPE'
 
 
 // reducer
@@ -58,6 +60,19 @@ function reducer(state = initialState, action) {
             }
             const newRecipes = [...state.recipes, recipe]
             return {...state, recipes: newRecipes}
+        case CLEAR_INPUTS:
+            return {...state, 
+                name:'',
+                category: '',
+                authorFirst: '',
+                authorLast: '',
+                ingredients:[],
+                instructions:[]
+            }
+        case REMOVE_RECIPE:
+            let mewRecipes = [...state.recipes]
+            mewRecipes.splice(payload, 1)
+            return {...state, recipes: mewRecipes}
         default: return state
     }
 }
